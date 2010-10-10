@@ -63,3 +63,17 @@ $ repo sync
 }}}
 
 == Build kernel ==
+To build kernel the Android compiler should be added into PATH variable:
+{{{
+$ cd ppcdroid
+$ export PATH=$PWD/prebuilt/linux-x86/toolchain/powerpc-linux-4.3.1/bin
+}}}
+
+The kernel is located in root of android sources in kernel folder
+{{{
+$ cd ppcdroid
+$ make ARCH=powerpc 44x/canyonlands_android_defconfig
+$ make ARCH=powerpc CROSS_COMPILE=powerpc-android-linux- uImage 
+$ cd arch/powerpc/boot/dts && dtc -I dts -O dtb -o canyonlands.dtb canyonlands.dts
+}}}
+uImage can be found in `arch/powerpc/boot` folder and device tree blob in `arch/powerpc/boot/dts` folder.
