@@ -1,0 +1,15 @@
+#summary How to get involved
+
+There are many ways to get involved with the PPCdroid project.
+
+== Become a Rowboat user ==
+  * Try out Rowboat Android - either pre-built or from [Source source]
+  * Give us feedback via IRC [http://webchat.freenode.net/?channels=ppcdroid #ppcdroid] or the PPCDroid mailing list (ppcdroid@googlegroups.com)
+  * If you find an issue or bug, file a project [http://code.google.com/p/ppcdroid/issues/entry issue]
+
+== Share your Rowboat knowledge ==
+  * Add [http://code.google.com/p/ppcdroid/wiki/ Wiki] articles or edit existing topics
+  * Share your knowledge on [http://webchat.freenode.net/?channels=ppcdroid #ppcdroid] or [mailto:ppcdroid@googlegroups.com ppcdroid@googlegroups.com] 
+
+== Submit code ==
+  * Send your patches to the mailing list, [mailto:ppcdroid@googlegroups.com ppcdroid@googlegroups.com]
