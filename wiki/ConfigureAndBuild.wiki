@@ -77,3 +77,16 @@ $ make ARCH=powerpc CROSS_COMPILE=powerpc-android-linux- uImage
 $ cd arch/powerpc/boot/dts && dtc -I dts -O dtb -o canyonlands.dtb canyonlands.dts
 }}}
 uImage can be found in `arch/powerpc/boot` folder and device tree blob in `arch/powerpc/boot/dts` folder.
+
+== Build rootfs ==
+
+The next step is Android file system build. To build file system you need to specify for which board you want to build. Currently only Canyonlands platform is supported:
+TARGET_PRODUCT=canyonlands.
+
+To build rootfs:
+{{{
+$ cd ppcdroid
+$ make TARGET_PRODUCT=canyonlands -j8
+}}}
+
+The number after '-j' is amount of available CPUs on your host system. This can significantly save time 
