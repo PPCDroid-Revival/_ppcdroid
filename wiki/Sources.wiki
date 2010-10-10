@@ -35,3 +35,5 @@ $ cd ppcdroid
 $ repo init -u git://gitorious.org/ppcdroid/manifest.git
 $ repo sync
 }}}
+
+To Configure and Build the sources for Canyonlands platform kindly follow the [http://code.google.com/p/ppcdroid/wiki/ConfigureAndBuild Configure and Build wiki page].
