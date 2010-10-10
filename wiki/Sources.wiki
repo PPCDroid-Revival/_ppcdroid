@@ -1,6 +1,5 @@
 #summary Getting Project Source Code.
 
-= Get source code =
 == Host Setup to download the sources ==
 
 Before you download the source, you will need [http://git-scm.com/ git] and [http://source.android.com/source/git-repo.html repo] tools.
