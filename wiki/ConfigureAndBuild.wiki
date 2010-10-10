@@ -58,7 +58,7 @@ disable         = no
 {{{
 $ mkdir ppcdroid
 $ cd ppcdroid
-$ repo init -u git://gitorious.org/rowboat/manifest.git
+$ repo init -u git://gitorious.org/ppcdroid/manifest.git
 $ repo sync
 }}}
 
