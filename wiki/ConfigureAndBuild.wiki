@@ -93,3 +93,15 @@ $ make TARGET_PRODUCT=canyonlands -j8
 }}}
 
 The number after '-j' is amount of available CPUs on your host system. This can significantly save time 
+After build process finished you'll need rootfs for this do following:
+
+{{{ 
+$ cd out/target/product/canyonlands
+$ mkdir android_rootfs
+$ cp -r root/* android_rootfs
+$ cp -r system android_rootfs
+}}}
+
+{{{
+$ sudo ../../../../build/tools/mktarball.sh ../../../host/linux-x86/bin/fs_get_stats android_rootfs . rootfs rootfs.tar.bz2
+}}}
