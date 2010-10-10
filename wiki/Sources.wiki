@@ -28,3 +28,11 @@ $ chmod a+x ~/bin/repo
 You can find detailed repo installing instructions [http://source.android.com/source/git-repo.html here]
 
 ==To download the PPCDroid source code==
+Kindly follow the below instructions to download the sources
+
+{{{
+$ mkdir ~/ppcdroid
+$ cd ~/ppcdroid
+$ repo init -u git://gitorious.org/rowboat/manifest.git
+$ repo sync
+}}}
