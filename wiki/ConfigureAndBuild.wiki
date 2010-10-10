@@ -105,3 +105,12 @@ $ cp -r system android_rootfs
 {{{
 $ sudo ../../../../build/tools/mktarball.sh ../../../host/linux-x86/bin/fs_get_stats android_rootfs . rootfs rootfs.tar.bz2
 }}}
+
+== preparing HDD for booting ==
+TBD
+== preparing NFS for booting ==
+TBD
+== booting from HDD ==
+TBD
+== booting from NFS ==
+TBD
