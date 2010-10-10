@@ -12,6 +12,13 @@ Getting git:
 $ sudo apt-get install git-core
 }}}
 
+On RedHat based distributions (Fedora, CentOS, RHEL):
+
+Getting git:
+{{{
+$sudo yum install git
+}}}
+
 Getting repo:
 {{{
 $ curl http://android.git.kernel.org/repo >~/bin/repo
