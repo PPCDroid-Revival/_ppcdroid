@@ -54,6 +54,9 @@ server_args     = /tftpboot
 disable         = no
 }
 }}}
+ * Configure NFS server
+ TBD
+
 == Checkout sources ==
 {{{
 $ mkdir ppcdroid
