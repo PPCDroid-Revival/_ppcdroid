@@ -1,3 +1,23 @@
-#summary One-sentence summary of this page.
+#summary Getting Project Source Code.
 
 = Get source code =
+== Host Setup to download the sources ==
+
+Before you download the source, you will need [http://git-scm.com/ git] and [http://source.android.com/source/git-repo.html repo] tools.
+
+On an Ubuntu 8.04 host, you can do the following:
+
+Getting git:
+{{{
+$ sudo apt-get install git-core
+}}}
+
+Getting repo:
+{{{
+$ curl http://android.git.kernel.org/repo >~/bin/repo
+$ chmod a+x ~/bin/repo
+}}}
+
+You can find detailed repo installing instructions [http://source.android.com/source/git-repo.html here]
+
+==To download the PPCDroid source code==
