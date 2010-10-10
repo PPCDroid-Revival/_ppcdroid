@@ -2,7 +2,7 @@
 
 == Most important pages ===
   * [http://code.google.com/p/ppcdroid/downloads/list Get pre-built Android]
-  * [http://code.google.com/p/ppcdroid/wiki/Source Get source code]
+  * [http://code.google.com/p/ppcdroid/wiki/Sources Get source code]
   * [http://code.google.com/p/ppcdroid/wiki/ConfigureAndBuild Configure and build instructions]
 
 === List all PPCDroid wiki pages ===
