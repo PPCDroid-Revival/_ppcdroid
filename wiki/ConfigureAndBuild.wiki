@@ -1,1 +1,65 @@
 #summary Configure and build instructions.
+
+<wiki:toc max_depth="4" />
+== Prepare your host environment ==
+=== Hardware ===
+To work with CanyonLands you will need the following:
+ * Board
+ * Host machine (Linux Ubuntu 8.x/9.04) with Ethernet card and serial port
+ * Serial cable (null-modem)
+ * ATX Power supply
+ * USB Hub
+ * USB Ethernet adapter
+ * USB Keyboard & Mouse
+ * USB stick
+ * Ethernet cross cable or Ethernet Switch/Hub+2 cables
+ * Serial ATA HDD or IDE HDD with PCI/PCIe IDE controller
+ * PCIe Video adapter (Currently supported are XGI Volari z9s/z9m/z11)
+ * VGA cable
+ 
+=== Software ===
+As Google we recommend to use Ubuntu 8.04+ , but also you can use CentOS 5.x/RHEL 5.x
+ * Install tftp server
+ * Install [http://source.android.com/download/using-repo repo] tool 
+ * Set up your Linux development environment, make sure you have the following:
+Required packages:
+
+{{{
+Git 1.5.4 or newer and the GNU Privacy Guard. 
+JDK 5.0, update 12 or higher.  Java 6 is not supported, because of incompatibilities with @Override.
+flex, bison, gperf, libsdl-dev, libesd0-dev, libwxgtk2.6-dev (optional), build-essential, zip, curl, minicom, tftp-server, uboot-mkimage
+}}}
+For Ubuntu 32-bit use such command:
+{{{
+$ sudo apt-get install git-core gnupg sun-java5-jdk flex bison gperf libsdl-dev libesd0-dev libwxgtk2.6-dev build-essential zip curl libncurses5-dev zlib1g-dev minicom tftpd uboot-mkimage
+}}}
+
+== Configure your network ==
+ * Configure your host Ethernet adapter
+{{{
+sudo ifconfig ethX 10.10.10.1 netmask 255.255.255.0 up
+}}}
+ * Configure TFTP-server
+/etc/xinet.d/tftpd:
+{{{
+service tftp
+{
+protocol        = udp
+port            = 69
+socket_type     = dgram
+wait            = yes
+user            = nobody
+server          = /usr/sbin/in.tftpd
+server_args     = /tftpboot
+disable         = no
+}
+}}}
+== Checkout sources ==
+{{{
+$ mkdir ppcdroid
+$ cd ppcdroid
+$ repo init -u git://gitorious.org/rowboat/manifest.git
+$ repo sync
+}}}
+
+== Build kernel ==
