@@ -1,9 +1,9 @@
 #summary One-sentence summary of this page.
 
 == Most important pages ===
-  * [http://code.google.com/p/rowboat/downloads/list Get pre-built Android]
-  * [http://code.google.com/p/rowboat/wiki/Source Get source code]
-  * [http://code.google.com/p/rowboat/wiki/ConfigureAndBuild Configure and build instructions]
+  * [http://code.google.com/p/ppcdroid/downloads/list Get pre-built Android]
+  * [http://code.google.com/p/ppcdroid/wiki/Source Get source code]
+  * [http://code.google.com/p/ppcdroid/wiki/ConfigureAndBuild Configure and build instructions]
 
 === List all PPCDroid wiki pages ===
-  * [http://code.google.com/p/rowboat/w/list All Pages]
+  * [http://code.google.com/p/ppcdroid/w/list All Pages]
