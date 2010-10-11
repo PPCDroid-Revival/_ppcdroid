@@ -107,10 +107,51 @@ $ sudo ../../../../build/tools/mktarball.sh ../../../host/linux-x86/bin/fs_get_s
 }}}
 
 == preparing HDD for booting ==
-TBD
+Linux kernel and the device tree blob file can be booted from the USB stick and the Android rootfs can be located on th HDD.
+To prepare bootable USB stick and HDD with Android rootfs:
+ # Create single VFAT partition on the USB stick and put uImage and device tree blob file on it
+ # Create single ext3 partition on the IDE hard drive and unpack rootfs tarball on it
 == preparing NFS for booting ==
 TBD
 == booting from HDD ==
-TBD
+To boot the kernel and the device tree blob file from the USB stick and the rootfs from the HDD:
+ *# Start USB subsystem in the U-boot:
+{{{
+# usb start
+}}}
+ * Clarify USB stick device and partition numbers:
+{{{
+# usb storage
+        Device 0: Vendor: USB 2.0  Rev: 0.00 Prod: USB Flash Drive
+                  Type: Removable Hard Disk
+                  Capacity: 3856.0 MB = 3.7 GB (7897088 x 512)
+        Device 1: Vendor: Generic  Rev: 0.00 Prod: USB Flash Disk
+                  Type: Removable Hard Disk
+                  Capacity: 3856.0 MB = 3.7 GB (7897088 x 512)
+}}}
+ Say USB stick with the uImage and device tree blob is the Device 0:
+{{{
+# usb part 0
+      print_part of 0
+
+      Partition Map for USB device 0  --   Partition Type: DOS
+
+      Partition     Start Sector     Num Sectors     Type
+          1                   63         7886529       b 
+}}}
+ So the device number is '0' and the partition number is '1'.
+ * Load uImage and device tree blob from the USB stick:
+{{{
+# fatload usb 0:1 0x300000 uImage
+# fatload usb 0:1 0x3000000 canyonlands.dtb
+}}}
+ * Setup bootargs for the USB/IDE boot:
+{{{
+# setenv bootargs root=/dev/hde1 rw rootwait console=ttyS0,115200 init=/init
+}}}
+ * Boot the kernel
+{{{
+# bootm 300000 - 3000000
+}}}
 == booting from NFS ==
 TBD
