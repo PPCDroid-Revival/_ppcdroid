@@ -40,7 +40,7 @@ $ sudo apt-get install git-core gnupg sun-java5-jdk flex bison gperf libsdl-dev 
 sudo ifconfig ethX 10.10.10.1 netmask 255.255.255.0 up
 }}}
  * Configure TFTP-server
-/etc/xinet.d/tftpd:
+ /etc/xinet.d/tftpd:
 {{{
 service tftp
 {
