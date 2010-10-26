@@ -112,7 +112,27 @@ To prepare bootable USB stick and HDD with Android rootfs:
  # Create single VFAT partition on the USB stick and put uImage and device tree blob file on it
  # Create single ext3 partition on the IDE hard drive and unpack rootfs tarball on it
 == preparing NFS for booting ==
-TBD
+Create directory on host which will mounted as Network RootFS on target
+{{{
+$ mkdir -p /tftpboot/canyonlands/rootfs
+}}}
+Copy already prebuild files on rootfs:
+{{{
+$ cd out/target/product/canyonlands
+$ cp -r root/* out/target/product/canyonlands
+$ cp -r system out/target/product/canyonlands
+}}}
+
+Adjust host configuration to allow Target RootFS to be export on host. To do that add following entry to /etc/exports
+{{{
+/tftpboot    192.168.1.0/24(rw,no_root_squash,no_all_squash)
+}}}
+
+Reexport NFS directories:
+{{{
+$ /usr/sbin/exportfs -rv
+}}}
+
 == booting from HDD ==
 To boot the kernel and the device tree blob file from the USB stick and the rootfs from the HDD:
  *# Start USB subsystem in the U-boot:
