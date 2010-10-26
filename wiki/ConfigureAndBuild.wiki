@@ -170,13 +170,17 @@ To boot the kernel and the device tree blob file from the USB stick and the root
 # bootm 300000 - 3000000
 }}}
 == booting from NFS ==
-* Setup bootargs for network boot.
+* Setup bootargs for network boot. *
+
 In u-boot console type:
 {{{
 # setenv bootargs root=/dev/nfs rw nfsroot=192.168.1.1:/tftpboot/canyonlands/rootfs init=/init ip=192.168.1.2:192.168.1.1:192.168.1.1:255.255.255.0:canyonlands:eth1:off panic=1 console=ttyS0,115200
 }}}
-* !Important note!
-During start sequence the Android will bring up eth0 interface with ethmonitor service. So the NFS root should be loaded through second interface,  otherwise ethmonitor must be disabled. To do that comment line in init.rc file on target rootfs:
+* !Important note!*
+
+During start sequence the Android will bring up eth0 interface with ethmonitor service. So the NFS root should be loaded through second interface, otherwise ethmonitor must be disabled.
+
+To do that comment line in init.rc file on target rootfs:
 {{{
 # service ethmonitor /system/bin/ethmonitor eth0
 }}}
