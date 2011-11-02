@@ -20,7 +20,7 @@ $sudo yum install git
 
 Getting repo:
 {{{
-$ curl http://android.git.kernel.org/repo >~/bin/repo
+$ curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo >~/bin/repo
 $ chmod a+x ~/bin/repo
 }}}
 
