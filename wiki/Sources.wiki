@@ -1,39 +1,32 @@
-#summary Getting Project Source Code.
-
-== Host Setup to download the sources ==
+= Setting up a Linux environment =
 
 Before you download the source, you will need [http://git-scm.com/ git] and [http://source.android.com/source/git-repo.html repo] tools.
 
-On an Ubuntu 8.04 host, you can do the following:
+On an Ubuntu LTS (10.04) host, you can do the following:
 
-Getting git:
+Getting _git_:
 {{{
 $ sudo apt-get install git-core
 }}}
 
-On RedHat based distributions (Fedora, CentOS, RHEL):
-
-Getting git:
-{{{
-$sudo yum install git
-}}}
-
-Getting repo:
+Getting _repo_:
 {{{
 $ curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo >~/bin/repo
 $ chmod a+x ~/bin/repo
 }}}
 
-You can find detailed repo installing instructions [http://source.android.com/source/git-repo.html here]
+You can find detailed repo installing instructions [http://source.android.com/source/git-repo.html here].
 
-==To download the PPCDroid source code==
-Kindly follow the below instructions to download the sources
+= PPCDroid source code download =
+Use the following commands to get source code:
 
 {{{
 $ mkdir ppcdroid
 $ cd ppcdroid
-$ repo init -u git://gitorious.org/ppcdroid/manifest.git
+$ repo init -u git://gitorious.org/ppcdroid/manifest.git -m manifest_name
 $ repo sync
 }}}
 
-To Configure and Build the sources for Canyonlands platform kindly follow the [http://code.google.com/p/ppcdroid/wiki/ConfigureAndBuild Configure and Build wiki page].
+_manifest_name_ can be the following:
+   * ppcdroid-donut.xml - for Android 1.6 (Donut)
+   * ppcdroid-gingerbread.xml - for Android 2.3 (Gingerbread)
