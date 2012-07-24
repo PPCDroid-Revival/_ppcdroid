@@ -1,4 +1,4 @@
-= Setting up a Linux environment =
+= Git and repo setup =
 
 Before you download the source, you will need [http://git-scm.com/ git] and [http://source.android.com/source/git-repo.html repo] tools.
 
