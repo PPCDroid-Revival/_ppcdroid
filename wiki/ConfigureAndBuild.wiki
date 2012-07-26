@@ -83,7 +83,7 @@ $ sudo /etc/init.d/nfs-kernel-server start
 To build kernel the Android compiler should be added into PATH variable:
 {{{
 $ cd <ppcdroid-repo-dir>
-$ export PATH=$PATH:$PWD/prebuilt/linux-x86/toolchain/powerpc-linux-4.3.1/bin
+$ export PATH=$PATH:$PWD/prebuilt/linux-x86/toolchain/powerpc-android-linux-4.4.3/bin
 }}}
 
 The kernel source tree is located in root of Android sources in _kernel_ folder:
