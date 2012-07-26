@@ -24,7 +24,7 @@ Use the following commands to get source code:
 $ mkdir ppcdroid
 $ cd ppcdroid
 $ repo init -u git://gitorious.org/ppcdroid/manifest.git -m manifest_name
-$ repo sync
+$ repo sync -j10
 }}}
 
 _manifest_name_ can be the following:
