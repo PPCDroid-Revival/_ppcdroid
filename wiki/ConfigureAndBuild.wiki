@@ -89,7 +89,7 @@ $ export PATH=$PATH:$PWD/prebuilt/linux-x86/toolchain/powerpc-linux-4.3.1/bin
 The kernel source tree is located in root of Android sources in _kernel_ folder:
 {{{
 $ make ARCH=powerpc 44x/canyonlands_android_defconfig
-$ make ARCH=powerpc CROSS_COMPILE=powerpc-android-linux- -j8 uImage 
+$ make ARCH=powerpc CROSS_COMPILE=powerpc-android-linux- uImage -j8
 $ cd arch/powerpc/boot/dts && dtc -I dts -O dtb -o canyonlands.dtb canyonlands.dts
 }}}
 uImage can be found in _arch/powerpc/boot_ folder and device tree blob file in _arch/powerpc/boot/dts_ folder.
