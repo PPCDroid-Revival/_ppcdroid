@@ -32,18 +32,41 @@ $ sudo apt-get install minicom atftpd uboot-mkimage nfs-kernel-server isc-dhcp-s
 }}}
 
 == Configure network ==
- * Configure your host Ethernet adapter
+=== Ethernet adapter configuration ===
 {{{
 sudo ifconfig ethX 10.10.10.1 netmask 255.255.255.0 up
 }}}
- * Configure TFTP-server
+=== DHCP server configuration ===
+/etc/dhcp/dhcpd.conf
+{{{
+INTERFACES="ethX"; #
+
+ddns-update-style none;
+default-lease-time 600;
+max-lease-time 7200;
+
+subnet 10.10.10.0 netmask 255.255.255.0 {
+  range 10.10.10.10 10.10.10.200;
+  option routers 10.10.10.1;
+  option broadcast-address 10.10.10.255;
+  option subnet-mask 255.255.255.0;
+}
+
+host canyonlands {
+  hardware ethernet 00:00:00:00:00:00; # Your device MAC
+  fixed-address 10.10.10.36;
+  option host-name "canyonlands";
+  option root-path "/svr/nfs/canyonlands-root";
+}
+}}}
+=== TFTP server configuration ===
  /etc/default/atftpd:
 {{{
 USE_INETD=true
 OPTIONS="--tftpd-timeout 300 --retry-timeout 5 --mcast-port 1758 \
 --mcast-addr 239.239.239.0-255 --mcast-ttl 1 --maxthread 100 --verbose=5 /srv/tftp"
 }}}
- * Configure NFS server
+=== NFS server configuration ===
 Adjust host configuration to allow target root filesystem to be exported on host. To do that add the following entry to /etc/exports
 {{{
 /srv/nfs/canyonlands-root    10.10.10.0/24(rw,no_root_squash,no_all_squash)
@@ -54,7 +77,6 @@ Re-export NFS directories and start NFS server:
 $ sudo /usr/sbin/exportfs -rv
 $ sudo /etc/init.d/nfs-kernel-server start
 }}}
-
 
 = Build =
 == Linux kernel ==
