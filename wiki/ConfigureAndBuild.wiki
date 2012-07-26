@@ -1,105 +1,92 @@
-#summary Configure and build instructions.
-
+#labels Featured,Phase-Deploy
 <wiki:toc max_depth="4" />
-== Prepare your host environment ==
-=== Hardware ===
-To work with CanyonLands you will need the following:
- * Board
- * Host machine (Linux Ubuntu 8.x/9.04) with Ethernet card and serial port
+= Setting up Linux build environment =
+== Hardware ==
+To work with Canyonlands you will need the following:
+ * Canyonlands development board
+ * PC host machine (Ubuntu LTS (10.04) with Ethernet card and serial port (or USB-to-Serial adapter)
  * Serial cable (null-modem)
  * ATX Power supply
  * USB Hub
  * USB Ethernet adapter
  * USB Keyboard & Mouse
- * USB stick
- * Ethernet cross cable or Ethernet Switch/Hub+2 cables
- * Serial ATA HDD or IDE HDD with PCI/PCIe IDE controller
+ * USB Flash stick
+ * Ethernet cross cable or Ethernet Switch/Hub and 2 cables
+ * Serial ATA HDD or IDE HDD with PCI/PCIe IDE controller (if you want to work with HDD)
  * PCIe Video adapter (Currently supported are XGI Volari z9s/z9m/z11)
- * VGA cable
+ * VGA or DVI cable
+ * Monitor with VGA or DVI support
  
-=== Software ===
-As Google we recommend to use Ubuntu 8.04+ , but also you can use CentOS 5.x/RHEL 5.x
- * Install tftp server
- * Install [http://source.android.com/download/using-repo repo] tool 
- * Set up your Linux development environment, make sure you have the following:
-Required packages:
+== Software ==
+=== Common ===
+As Google we recommend to use Ubuntu 10.04+, all essential steps are descripbed [http://source.android.com/source/initializing.html here].
 
+=== NFS root ===
+To boot target board with NFS root you will need additional software:
+   * TFTP server
+   * NFS server
+   * DHPC server
+   * minicom
 {{{
-Git 1.5.4 or newer and the GNU Privacy Guard. 
-JDK 5.0, update 12 or higher.  Java 6 is not supported, because of incompatibilities with @Override.
-flex, bison, gperf, libsdl-dev, libesd0-dev, libwxgtk2.6-dev (optional), build-essential, zip, curl, minicom, tftp-server, uboot-mkimage
-}}}
-For Ubuntu 32-bit use such command:
-{{{
-$ sudo apt-get install git-core gnupg sun-java5-jdk flex bison gperf libsdl-dev libesd0-dev libwxgtk2.6-dev build-essential zip curl libncurses5-dev zlib1g-dev minicom tftpd uboot-mkimage
+$ sudo apt-get install minicom atftpd uboot-mkimage nfs-kernel-server isc-dhcp-server
 }}}
 
-== Configure your network ==
+== Configure network ==
  * Configure your host Ethernet adapter
 {{{
 sudo ifconfig ethX 10.10.10.1 netmask 255.255.255.0 up
 }}}
  * Configure TFTP-server
- /etc/xinet.d/tftpd:
+ /etc/default/atftpd:
 {{{
-service tftp
-{
-protocol        = udp
-port            = 69
-socket_type     = dgram
-wait            = yes
-user            = nobody
-server          = /usr/sbin/in.tftpd
-server_args     = /tftpboot
-disable         = no
-}
+USE_INETD=true
+OPTIONS="--tftpd-timeout 300 --retry-timeout 5 --mcast-port 1758 \
+--mcast-addr 239.239.239.0-255 --mcast-ttl 1 --maxthread 100 --verbose=5 /srv/tftp"
 }}}
  * Configure NFS server
-Adjust host configuration to allow Target RootFS to be exported on host. To do that add following entry to /etc/exports
+Adjust host configuration to allow target root filesystem to be exported on host. To do that add the following entry to /etc/exports
 {{{
-/tftpboot    192.168.1.0/24(rw,no_root_squash,no_all_squash)
+/srv/nfs/canyonlands-root    10.10.10.0/24(rw,no_root_squash,no_all_squash)
 }}}
 
-Reexport NFS directories:
+Re-export NFS directories and start NFS server:
 {{{
-$ /usr/sbin/exportfs -rv
-}}}
-== Checkout sources ==
-{{{
-$ mkdir ppcdroid
-$ cd ppcdroid
-$ repo init -u git://gitorious.org/ppcdroid/manifest.git
-$ repo sync
+$ sudo /usr/sbin/exportfs -rv
+$ sudo /etc/init.d/nfs-kernel-server start
 }}}
 
-== Build kernel ==
+
+= Build =
+== Linux kernel ==
 To build kernel the Android compiler should be added into PATH variable:
 {{{
-$ cd ppcdroid
-$ export PATH=$PWD/prebuilt/linux-x86/toolchain/powerpc-linux-4.3.1/bin
+$ cd <ppcdroid-repo-dir>
+$ export PATH=$PATH:$PWD/prebuilt/linux-x86/toolchain/powerpc-linux-4.3.1/bin
 }}}
 
-The kernel is located in root of android sources in kernel folder
+The kernel source tree is located in root of Android sources in _kernel_ folder:
 {{{
-$ cd ppcdroid
 $ make ARCH=powerpc 44x/canyonlands_android_defconfig
-$ make ARCH=powerpc CROSS_COMPILE=powerpc-android-linux- uImage 
+$ make ARCH=powerpc CROSS_COMPILE=powerpc-android-linux- -j8 uImage 
 $ cd arch/powerpc/boot/dts && dtc -I dts -O dtb -o canyonlands.dtb canyonlands.dts
 }}}
-uImage can be found in `arch/powerpc/boot` folder and device tree blob in `arch/powerpc/boot/dts` folder.
+uImage can be found in _arch/powerpc/boot_ folder and device tree blob file in _arch/powerpc/boot/dts_ folder.
 
-== Build rootfs ==
+== Android root filesystem ==
 
-The next step is Android file system build. To build file system you need to specify for which board you want to build. Currently only Canyonlands platform is supported:
-TARGET_PRODUCT=canyonlands.
+To build file system you need to specify for which board you want to build. 
 
-To build rootfs:
+*Currently only Canyonlands platform is supported*
+
 {{{
-$ cd ppcdroid
-$ make TARGET_PRODUCT=canyonlands -j8
+$ cd <ppcdroid-repo-dir>
+$ source build/envsetup.sh
+$ lunch full_canyonlands-eng
+$ make -j8
 }}}
 
-The number after '-j' is amount of available CPUs on your host system. This can significantly save time 
+The number after '-j' is amount of available CPUs on your host system. This can significantly reduce build time.
+
 After build process finished you'll need rootfs for this do following:
 
 {{{ 
@@ -113,29 +100,19 @@ $ cp -r system android_rootfs
 $ sudo ../../../../build/tools/mktarball.sh ../../../host/linux-x86/bin/fs_get_stats android_rootfs . rootfs rootfs.tar.bz2
 }}}
 
-== preparing HDD for booting ==
-Linux kernel and the device tree blob file can be booted from the USB stick and the Android rootfs can be located on th HDD.
+= Startup process =
+== Boot from USB+HDD ==
+Linux kernel and the device tree blob file can be loaded from USB stick and Android root filesystem can be located on HDD.
 To prepare bootable USB stick and HDD with Android rootfs:
- # Create single VFAT partition on the USB stick and put uImage and device tree blob file on it
- # Create single ext3 partition on the IDE hard drive and unpack rootfs tarball on it
-== preparing NFS for booting ==
-Create directory on host which will mounted as Network RootFS on target
-{{{
-$ mkdir -p /tftpboot/canyonlands/rootfs
-}}}
-Copy already prebuild files on rootfs:
-{{{
-$ cd out/target/product/canyonlands
-$ cp -r root/* /tftpboot/canyonlands/rootfs
-$ cp -r system /tftpboot/canyonlands/rootfs
-}}}
-== booting from HDD ==
-To boot the kernel and the device tree blob file from the USB stick and the rootfs from the HDD:
- *# Start USB subsystem in the U-boot:
+   # Create single VFAT partition on the USB stick and put uImage and device tree blob file on it
+   # Create single ext3 partition on the HDD and unpack rootfs tarball on it
+   # Insert USB stick into target device and switch it on
+   # Get U-Boot command prompt
+   # Start USB subsystem in the U-boot:
 {{{
 # usb start
 }}}
- * Clarify USB stick device and partition numbers:
+   # Clarify USB stick device and partition numbers:
 {{{
 # usb storage
         Device 0: Vendor: USB 2.0  Rev: 0.00 Prod: USB Flash Drive
@@ -145,7 +122,7 @@ To boot the kernel and the device tree blob file from the USB stick and the root
                   Type: Removable Hard Disk
                   Capacity: 3856.0 MB = 3.7 GB (7897088 x 512)
 }}}
- Say USB stick with the uImage and device tree blob is the Device 0:
+   # Say USB stick with the uImage and device tree blob is the Device 0:
 {{{
 # usb part 0
       print_part of 0
@@ -155,28 +132,48 @@ To boot the kernel and the device tree blob file from the USB stick and the root
       Partition     Start Sector     Num Sectors     Type
           1                   63         7886529       b 
 }}}
- So the device number is '0' and the partition number is '1'.
- * Load uImage and device tree blob from the USB stick:
+   # Load uImage and device tree blob from the USB stick:
 {{{
 # fatload usb 0:1 0x300000 uImage
 # fatload usb 0:1 0x3000000 canyonlands.dtb
 }}}
- * Setup bootargs for the USB/IDE boot:
+   # Setup bootargs for the USB/IDE boot:
 {{{
 # setenv bootargs root=/dev/hde1 rw rootwait console=ttyS0,115200 init=/init
 }}}
- * Boot the kernel
+   # Boot the kernel
 {{{
 # bootm 300000 - 3000000
 }}}
-== booting from NFS ==
-* Setup bootargs for network boot. *
 
-In u-boot console type:
+== Boot with NFS root ==
+   # Copy required filesystem tree:
 {{{
-# setenv bootargs root=/dev/nfs rw nfsroot=192.168.1.1:/tftpboot/canyonlands/rootfs init=/init ip=192.168.1.2:192.168.1.1:192.168.1.1:255.255.255.0:canyonlands:eth1:off panic=1 console=ttyS0,115200
+$ cd <ppcdroid-repo-dir>/out/target/product/canyonlands
+$ sudo cp -r root/* /svr/nfs/canyonlands-root
+$ sudo cp -r system /svr/nfs/canyonlands-root
 }}}
-* !Important note!*
+   # Get U-Boot command prompt
+   # Setup bootargs for network boot:
+{{{
+setenv ethact ppc_4xx_eth1
+setenv netdev eth1
+setenv console_dev ttyS0
+setenv kernel_image uImage-canyonlands
+setenv fdt_file canyonlands.dtb
+setenv fdt_addr 0x3000000
+setenv loadaddr 0x300000
+setenv rootfs_path /srv/nfs/canyonlands-root
+setenv serverip 10.10.10.1
+setenv ipadd 10.10.10.2
+setenv netmask 255.255.255.0
+setenv gatewayip 10.10.10.1
+setenv bootargs \"root=/dev/nfs rw nfsroot=${serverip}:${rootfs_path} init=/init ip=dhcp panic=1 console=${console_dev},${baudrate}\"
+setenv bootcmd \"setenv ethact ppc_4xx_eth1;tftp ${kernel_image};tftp ${fdtm_addr} ${fdt_file};bootm ${loadaddr} - ${fdtm_addr}\"
+bootm
+}}}
+
+* Important note for Donut version*
 
 During start sequence the Android will bring up eth0 interface with ethmonitor service. So the NFS root should be loaded through second interface, otherwise ethmonitor must be disabled.
 
