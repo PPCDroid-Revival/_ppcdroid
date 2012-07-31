@@ -21,6 +21,19 @@ To work with Canyonlands you will need the following:
 === Common ===
 As Google we recommend to use Ubuntu 10.04+, all essential steps are descripbed [http://source.android.com/source/initializing.html here].
 
+=== Ubuntu 12.04+ ===
+You need to install GCC 4.4 to get successful android root filesystem build:
+{{{
+sudo aptitide install gcc-4.4 g++-4.4 g++-4.4-multilib
+go to <ppcdroid-repo-tree>
+mkdir bin
+cd bin
+ln -s /usr/bin/gcc-4.4 gcc
+ln -s /usr/bin/g++-4.4 g++
+ln -s /usr/bin/cpp-4.4 cpp
+export PATH=$PWD:$PATH
+}}}
+
 === NFS root ===
 To boot target board with NFS root you will need additional software:
    * TFTP server
@@ -98,7 +111,9 @@ uImage can be found in _arch/powerpc/boot_ folder and device tree blob file in _
 
 To build file system you need to specify for which board you want to build. 
 
-*Currently only Canyonlands platform is supported*
+*Note*
+ * Currently only Canyonlands platform is supported
+ * On Ubuntu 12+ you need GCC 4.4, read [https://groups.google.com/d/msg/ppcdroid/mmw4xtxJ3wQ/2127u5P8E0EJ this post].
 
 {{{
 $ cd <ppcdroid-repo-dir>
