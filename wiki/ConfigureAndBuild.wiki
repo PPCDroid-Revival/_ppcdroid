@@ -22,7 +22,7 @@ To work with Canyonlands you will need the following:
 As Google we recommend to use Ubuntu 10.04+, all essential steps are descripbed [http://source.android.com/source/initializing.html here].
 
 === Ubuntu 12.04+ ===
-You need to install GCC 4.4 to get successful android root filesystem build:
+You need to install GCC 4.4 to get successful build of Android 2.3 root filesystem:
 {{{
 sudo aptitide install gcc-4.4 g++-4.4 g++-4.4-multilib
 go to <ppcdroid-repo-tree>
