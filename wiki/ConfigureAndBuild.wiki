@@ -128,7 +128,7 @@ After build process finished you'll need rootfs for this do following:
 
 {{{ 
 cd out/target/product/canyonlands
-mkdir android_rootfs
+mkdir ppcdroid_rootfs
 cp -r root/* ppcdroid_rootfs
 cp -r system ppcdroid_rootfs
 sudo ../../../../build/tools/mktarball.sh ../../../host/linux-x86/bin/fs_get_stats \
