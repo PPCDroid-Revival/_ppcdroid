@@ -27,6 +27,10 @@ Additionally on 64-bit hosts you should run:
   ```
   $ sudo apt-get install [todo]
   ```
+You'll also need a JDK (Java Development Kit) to build PPCDroid.  Assuming that you're building Gingerbread, you need JDK 6.  You can get a suitable JDK on most versions of Ubuntu by using:
+```
+$ sudo apt-get install openjdk-6-jdk
+```
 
 Getting `repo`:
 You'll need an old version of repo for this to work, the latest version is too new for such an old copy of Ubuntu.  Here's how you do that (to get the latest 1.x version):
