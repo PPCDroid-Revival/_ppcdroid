@@ -15,8 +15,17 @@ $ sudo apt-get install flex bison gperf build-essential zip curl python zlib1g-d
 ```
 
 Additionally on 64-bit hosts you should run:
+Ubuntu 10.04 and under:
 ```
 $ sudo apt-get install lib32ncurses5-dev ia32-libs lib32readline5-dev lib32z-dev
+```
+Ubuntu 12.04:
+```
+$ sudo apt-get install lib32ncurses5-dev ia32-libs lib32readline-gplv2-dev lib32z-dev
+```
+Ubuntu 14.04 and over:
+```
+$ sudo apt-get install [todo]
 ```
 
 Getting `repo`:
