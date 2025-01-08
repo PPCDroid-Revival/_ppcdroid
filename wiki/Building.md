@@ -23,7 +23,74 @@ To work with PPCDroid you will need the following:
  
 ## Software
 ### Common
-As Google we recommend to use Ubuntu 10.04+, all essential steps are described [here](http://source.android.com/source/initializing.html).
+#### OS Compatibility matrix
+| OS                        | Donut | Gingerbread |
+| ------------------------- | :---: | :---------: |
+| Ubuntu 8.04 LTS (i386)    |   ❓  |     ❓      |
+| Ubuntu 8.04 LTS (x86_64)  |   ❓  |     ❓      |
+| Ubuntu 10.04 LTS (i386)   |   ❓  |     ❓      |
+| Ubuntu 10.04 LTS (x86_64) |   ❓  |     ❓      |
+| Ubuntu 12.04 LTS (i386)   |   ❓  |     ❓      |
+| Ubuntu 12.04 LTS (x86_64) |   ❓  |     ✅      |
+| Ubuntu 14.04 LTS (i386)   |   ❓  |     ❓      |
+| Ubuntu 14.04 LTS (x86_64) |   ❓  |     🚫      |
+| Non-Ubuntu OS             |   ❓  |     ❓      |
+#### Git and repo setup
+
+Before you download the source, you will need [git](http://git-scm.com/) and [repo](http://source.android.com/source/git-repo.html) tools.
+
+On an Ubuntu LTS (12.04) x86 host (the recommended one), you can do the following:
+
+Getting `git`:
+```
+$ sudo apt-get install git-core
+```
+
+Getting other tools:
+```
+$ sudo apt-get install flex bison gperf build-essential zip curl python zlib1g-dev libncurses5-dev
+```
+
+Additionally on 64-bit hosts you should run:
+- Ubuntu 10.04 and under:
+  ```
+  $ sudo apt-get install lib32ncurses5-dev ia32-libs lib32readline5-dev lib32z-dev
+  ```
+- Ubuntu 12.04:
+  ```
+  $ sudo apt-get install lib32ncurses5-dev ia32-libs lib32readline-gplv2-dev lib32z-dev
+  ```
+- Ubuntu 14.04 and over:
+  ```
+  $ sudo apt-get install [todo]
+  ```
+You'll also need a JDK (Java Development Kit) to build PPCDroid.  Assuming that you're building Gingerbread, you need JDK 6.  You can get a suitable JDK on most versions of Ubuntu by using:
+```
+$ sudo apt-get install openjdk-6-jdk
+```
+
+Getting `repo`:
+You'll need an old version of repo for this to work, the latest version is too new for such an old copy of Ubuntu.  Here's how you do that (to get the latest 1.x version):
+```
+curl -L 'https://gerrit.googlesource.com/git-repo/+/refs/tags/v1.13.11/repo?format=TEXT'  | base64 -d > repo
+chmod +x repo
+```
+
+You'll need to add this to your path.
+
+#### PPCDroid source code download
+Use the following commands to get source code:
+
+```
+$ mkdir ppcdroid
+$ cd ppcdroid
+$ repo init -u https://github.com/PPCDroid-Revival/manifest -m <manifest_name>
+$ repo sync -j10
+```
+
+`<manifest_name>` can be the following:
+   * ppcdroid-donut.xml - for Android 1.6 (Donut)
+   * ppcdroid-gingerbread.xml - for Android 2.3 (Gingerbread)
 
 ### NFS root
 To boot target board with NFS root you will need additional software:
