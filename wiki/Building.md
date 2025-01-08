@@ -58,7 +58,7 @@ Additionally on 64-bit hosts you should run:
   ```
 - Ubuntu 12.04:
   ```
-  $ sudo apt-get install lib32ncurses5-dev ia32-libs lib32readline-gplv2-dev lib32z-dev
+  $ sudo apt-get install lib32ncurses5-dev ia32-libs lib32readline-gplv2-dev lib32z-dev lib32stdc++6
   ```
 - Ubuntu 14.04 and over:
   ```
